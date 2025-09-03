@@ -21,8 +21,8 @@ def make_router(core, process_class):
         def read_config_schema(self):
             return self.process_class.config_schema
 
-        @router.get('/initialize')
-        def post_initialize(self, config):
+        @router.post('/initialize')
+        def post_initialize(self, config: dict):
             process_id = uuid.uuid4()
             process_instance = self.process_class(
                 config,
@@ -33,20 +33,27 @@ def make_router(core, process_class):
             print(process_id)
             return process_id
 
-        @router.get('/inputs')
+        @router.get('/inputs/{process_id}')
         def read_inputs(self, process_id: str):
             print(self.processes)
             return self.processes[process_id].inputs()
 
-        @router.get('/outputs')
+        @router.get('/outputs/{process_id}')
         def read_outputs(self, process_id: str):
             return self.processes[process_id].outputs()
 
-        @router.get('/update')
-        def post_update(self, process_id: str, state: dict[str, Any], interval: float):
+        @router.post('/update/{process_id}')
+        def post_update(self, process_id: str, data: dict):
+            state = data['state']
+            interval = data['interval']
+
             return self.processes[process_id].update(
                 state,
                 interval)
+
+        @router.post('/end/{process_id}')
+        def post_end(self, process_id: str):
+            del self.processes[process_id]
 
     return router
 
