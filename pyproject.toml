@@ -1,17 +1,22 @@
 [project]
 name = "rest-process"
-version = "0.1.0"
+version = "0.0.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12.9"
 dependencies = [
-    "process-bigraph",
     "fastapi>=0.116.1",
     "fastapi-utils>=0.8.0",
     "typing-inspect>=0.9.0",
     "uvicorn>=0.35.0",
+
+    "process-bigraph",
+    "vivarium-interface",
+    "spatio-flux",
 ]
 
 
 [tool.uv.sources]
 process-bigraph = { path = "../process-bigraph", editable = true }
+spatio-flux = { path = "../spatio-flux", editable = true }
+vivarium-interface = { path = "../vivarium-interface", editable = true }

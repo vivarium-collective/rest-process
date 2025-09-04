@@ -1,17 +1,17 @@
+import uvicorn
 
-
+from process_bigraph import ProcessTypes, discover_packages
 
 from rest_process.server import start_server
 from rest_process.processes.grow import GrowProcess
 
-import uvicorn
-
-from process_bigraph import ProcessTypes
-
 
 def test_server():
     core = ProcessTypes()
-    server = start_server(core, GrowProcess)
+    core = discover_packages(core, True)
+    core.register_process('grow', GrowProcess)
+
+    server = start_server(core)
     uvicorn.run(server, host='0.0.0.0', port=22222)
 
 
