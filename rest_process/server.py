@@ -19,8 +19,16 @@ def make_router(core):
         def find_process_class(self, process):
             return self.core.process_registry.access(process)
 
+        @router.get('/list-types')
+        def get_list_types(self):
+            return list(self.core.registry.keys())
+
+        @router.get('/list-processes')
+        def get_list_processes(self):
+            return list(self.core.process_registry.registry.keys())
+
         @router.get('/process/{process}/config-schema')
-        def read_config_schema(self, process: str):
+        def get_config_schema(self, process: str):
             process_class = self.find_process_class(process)
             if process_class is None:
                 return {'process-not-found': 'true'}
@@ -41,12 +49,12 @@ def make_router(core):
             return process_id
 
         @router.get('/process/{process}/inputs/{process_id}')
-        def read_inputs(self, process: str, process_id: str):
+        def get_inputs(self, process: str, process_id: str):
             print(self.processes)
             return self.processes[process_id].inputs()
 
         @router.get('/process/{process}/outputs/{process_id}')
-        def read_outputs(self, process: str, process_id: str):
+        def get_outputs(self, process: str, process_id: str):
             return self.processes[process_id].outputs()
 
         @router.post('/process/{process}/update/{process_id}')
