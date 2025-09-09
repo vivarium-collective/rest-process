@@ -19,6 +19,14 @@ def make_router(core):
         def find_process_class(self, process):
             return self.core.process_registry.access(process)
 
+        @router.get('/import-types')
+        def get_import_types(self):
+            pass
+
+        @router.get('/type-packages')
+        def get_type_packages(self):
+            pass
+
         @router.get('/list-types')
         def get_list_types(self):
             return list(self.core.registry.keys())
