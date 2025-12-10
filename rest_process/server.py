@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from fastapi_utils.cbv import cbv
 from fastapi_utils.inferring_router import InferringRouter
 
+from bigraph_schema import Edge
+
 
 def make_router(core):
     router = InferringRouter()
@@ -17,7 +19,7 @@ def make_router(core):
             self.processes = processes
 
         def find_process_class(self, process):
-            return self.core.process_registry.access(process)
+            return self.core.link_registry.get(process, Edge)
 
         @router.get('/import-types')
         def get_import_types(self):
@@ -33,7 +35,7 @@ def make_router(core):
 
         @router.get('/list-processes')
         def get_list_processes(self):
-            return list(self.core.process_registry.registry.keys())
+            return list(self.core.link_registry.keys())
 
         @router.get('/process/{process}/config-schema')
         def get_config_schema(self, process: str):

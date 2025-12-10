@@ -17,6 +17,7 @@ dependencies = [
 
 
 [tool.uv.sources]
+bigraph-schema = { path = "../bigraph-schema", editable = true }
 process-bigraph = { path = "../process-bigraph", editable = true }
 # spatio-flux = { path = "../spatio-flux", editable = true }
 # vivarium-interface = { path = "../vivarium-interface", editable = true }
