@@ -1,14 +1,13 @@
 import uvicorn
 
-from process_bigraph import ProcessTypes, discover_packages
+from process_bigraph import allocate_core
 
 from rest_process.server import start_server
 from rest_process.processes.grow import GrowProcess
 
 
 def test_server():
-    core = ProcessTypes()
-    core = discover_packages(core, True)
+    core = allocate_core()
     core.register_process('grow', GrowProcess)
 
     server = start_server(core)
