@@ -1,6 +1,6 @@
 import uvicorn
 
-from process_bigraph import allocate_core
+from bigraph_schema import allocate_core
 
 from rest_process.server import start_server
 from rest_process.processes.grow import GrowProcess
@@ -8,9 +8,8 @@ from rest_process.processes.grow import GrowProcess
 
 def test_server():
     core = allocate_core()
-    core.register_process('grow', GrowProcess)
-
     server = start_server(core)
+
     uvicorn.run(server, host='0.0.0.0', port=22222)
 
 
