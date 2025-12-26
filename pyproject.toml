@@ -1,6 +1,6 @@
 [project]
 name = "rest-process"
-version = "1.0.0"
+version = "1.0.1"
 description = "server for hosting processes and composites from process-bigraph"
 readme = "README.md"
 requires-python = ">=3.11"
