@@ -1,5 +1,17 @@
 name: Publish to PyPI
 
+# rest-process publishes to PyPI (0.0.2, 0.0.3, 1.0.1 already shipped). The
+# v1.1.0 tag build's `publish` step fails on PyPI Trusted Publishing — the
+# project's trusted publisher does not match this workflow (environment
+# `release`, workflow `release.yml`); earlier versions were likely shipped a
+# different way. Fixing that is a one-time human-only PyPI-side action at
+# https://pypi.org/manage/project/rest-process/settings/publishing/.
+#
+# To avoid a persistent red X while that is pending, the `publish` job is GATED
+# behind a repo variable and SKIPPED by default. `test` still runs on every
+# tag. ENABLE releases again (after the trusted publisher is confirmed) with:
+#   gh variable set PYPI_PUBLISH_ENABLED --body true --repo vivarium-collective/rest-process
+
 on:
   push:
     tags:
@@ -11,6 +23,9 @@ jobs:
 
   publish:
     needs: test
+    # Skipped until PYPI_PUBLISH_ENABLED == 'true' (see header). Avoids a red X
+    # from a trusted-publisher mismatch while releases are paused.
+    if: ${{ vars.PYPI_PUBLISH_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     environment: release
     permissions:
